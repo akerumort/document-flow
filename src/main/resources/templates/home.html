@@ -1,0 +1,92 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${title}">Заголовок</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body class="body-background">
+
+<!-- Хедер -->
+<div class="header-container">
+    <header class="d-flex flex-wrap justify-content-between">
+        <div class="d-flex align-items-center mb-md-0">
+            <a href="/" class="text-decoration-none">
+                <span class="fw-bold">DocumentFlow</span>
+            </a>
+        </div>
+        <button class="btn btn-primary">
+            <a href="/documents/managing" class="text-decoration-none text-white">Управление документами</a>
+        </button>
+    </header>
+</div>
+<br><br>
+
+<div class="container form-container">
+    <h2 th:text="${title}" class="mt-5 mb-4"></h2>
+
+    <div class="input-group col-md-4 float-left">
+        <form method="get" action="/">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Поиск по номеру.." name="search">
+                <div class="input-group-append">
+                    <button class="btn btn-primary" type="submit">Найти</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="input-group col-md-4 float-right">
+        <form method="get" action="/">
+            <div class="form-group">
+                <div class="input-group">
+                    <select class="form-control" id="documentType" name="documentType">
+                        <option value="">Все типы</option>
+                        <option th:each="type : ${T(com.webprog.documentFlow.models.DocumentType).values()}"
+                                th:value="${type}" th:text="${type}"></option>
+                    </select>
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-primary">Применить фильтр</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div> <br> <br> <br>
+
+    <div class="table-container">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Номер</th>
+                <th>Заголовок</th>
+                <th>Дата</th>
+                <th>Тип</th>
+                <th>Файл</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${#lists.isEmpty(documents)}">
+                <td colspan="6" style="text-align: center; color: red;">Список пуст</td>
+            </tr>
+            <tr th:each="document : ${documents}">
+                <td th:text="${document.number}">Номер</td>
+                <td th:text="${document.title}">Заголовок</td>
+                <td th:text="${document.date != null ? #temporals.format(document.date, 'dd.MM.yyyy') : ''}">Дата</td>
+                <td th:text="${document.type}">Тип</td>
+                <td>
+                    <span th:if="${document.fileData == null}" style="color: red;">Файл отсутствует</span>
+                    <a th:if="${document.fileData != null}" th:href="@{/documents/download/{id}(id=${document.id})}"
+                       th:text="${document.fileName}">Скачать файл</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${title}" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body class="body-background">
+
+<div class="header-container">
+    <header class="d-flex flex-wrap justify-content-between">
+        <div class="d-flex align-items-center mb-md-0">
+            <a href="/" class="text-decoration-none">
+                <span class="fw-bold">DocumentFlow</span>
+            </a>
+        </div>
+
+        <form method="get" action="/documents/managing">
+            <input type="text" class="form-control" placeholder="Поиск по номеру.." name="search">
+            <div class="input-group-append float-right">
+                <button class="btn btn-primary" type="submit">Найти</button>
+            </div>
+        </form>
+    </header>
+</div> <br> <br>
+
+<div class="container form-container">
+    <h2 th:text="${title}" class="mt-5 mb-4"></h2>
+    <a href="/documents/add" class="btn btn-primary">Добавить документ</a>
+    <br><br>
+
+    <div class="table-container">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Номер</th>
+                <th>Заголовок</th>
+                <th>Дата</th>
+                <th>Тип</th>
+                <th>Файл</th>
+                <th>Действия</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${#lists.isEmpty(documents)}">
+                <td colspan="6" style="text-align: center; color: red;">Список пуст</td>
+            </tr>
+            <tr th:each="document : ${documents}">
+                <td th:text="${document.number}">Номер</td>
+                <td th:text="${document.title}">Заголовок</td>
+                <td th:text="${document.date != null ? #temporals.format(document.date, 'dd.MM.yyyy') : ''}">Дата</td>
+                <td th:text="${document.type}">Тип</td>
+                <td>
+                    <span th:if="${document.fileData == null}" style="color: red;">Файл отсутствует</span>
+                    <a th:if="${document.fileData != null}" th:href="@{/documents/download/{id}(id=${document.id})}"
+                       th:text="${document.fileName}">Скачать файл</a>
+                </td>
+                <td>
+                    <a th:href="@{/documents/edit/{id}(id=${document.id})}" class="btn btn-primary">Редактировать</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
