@@ -1,6 +1,6 @@
 <h1 align="center" id="title">documentFlow_TestTask</h1>
 
-<p align="center"><img src="https://socialify.git.ci/akerumort/documentFlow_TestTask/image?description=1&descriptionEditable=A%20mini-project%20as%20part%20of%20a%20test%20assignment&font=Raleway&language=1&name=1&owner=1&pattern=Brick%20Wall&theme=Dark"></p>
+<p align="center"><img src="https://socialify.git.ci/akerumort/documentFlow_TestTask/image?description=1&font=Raleway&language=1&name=1&owner=1&pattern=Brick%20Wall&theme=Dark"></p>
 <p id="description"> Данный сайт (backend-компонента) представляет собой небольшую автоматизацию документооборота. 
   Проект является тестовым заданием.
 </p>
